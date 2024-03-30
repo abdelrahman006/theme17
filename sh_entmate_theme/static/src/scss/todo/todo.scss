@@ -422,11 +422,8 @@
         } 
     } 
 }
-
-// krushna change 
 .o_web_client {
     .o_main_navbar {
-        background-color: #fff !important;
         border-bottom: 0 !important;
         align-items: center;
         padding: 10px;
@@ -436,13 +433,11 @@
             font-size: 1.2em !important;
             color: #374151;
         }
-        // .o-form-buttonbox .oe_stat_button .o_field_statinfo .o_stat_value
         .o_menu_systray{
             .todo_layout{
                 #accordion{
                     margin: 10px 20px;
                     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-                    // position: relative;
                     overflow: auto !important;
                     height: 100%;
                     transition: 0.5s all ease-in-out;

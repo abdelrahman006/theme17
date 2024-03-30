@@ -5,10 +5,14 @@ import { patch } from "@web/core/utils/patch";
 import { useService } from "@web/core/utils/hooks";
 
 import { jsonrpc } from "@web/core/network/rpc_service";
+import { session } from "@web/session";
 import { onWillStart } from "@odoo/owl";
+import { onMounted } from "@odoo/owl";
 
 var app_icon_style = 'style_1';
 var backend_all_icon_style = 'backend_fontawesome_icon';
+var enable_multi_tab = false
+
 
 patch(NavBar.prototype, {
     //--------------------------------------------------------------------------
@@ -23,6 +27,13 @@ patch(NavBar.prototype, {
             super.setup();
             this.orm = useService("orm");
             this.searchTheme()
+
+            enable_multi_tab = session.sh_enable_multi_tab
+            onMounted(() => {
+                if (enable_multi_tab){
+                   this.addmultitabtags()
+                }
+            });
         },
 
      async searchTheme() {
@@ -42,11 +53,14 @@ patch(NavBar.prototype, {
      },
 
     onNavBarDropdownItemSelection(menu) {
-        if(window.event.shiftKey){
-            localStorage.setItem("sh_add_tab",1)
-        }else{
-            localStorage.setItem("sh_add_tab",0)
-        }
+       if (enable_multi_tab){
+            if(window.event.shiftKey){
+                this._createMultiTab(menu)
+//                localStorage.setItem("sh_add_tab",1)
+            }else{
+//                localStorage.setItem("sh_add_tab",0)
+            }
+       }
         if(this.websiteCustomMenus){
             const websiteMenu = this.websiteCustomMenus.get(menu.xmlid);
             if (websiteMenu) {
@@ -58,6 +72,108 @@ patch(NavBar.prototype, {
             this.menuService.selectMenu(menu);
         }
     },
+    // NEW 28TH MARCH MULTITAB CODE 
+    _createMultiTab: function (ev) {
+        var tab_name = ev.name
+        var url = '#menu_id='+ev.id + '&action='+ ev.actionID
+        var actionId = ev.actionID
+        var menuId = ev.id
+        var menu_xmlid = ev.xmlid
+        var self = this
+        localStorage.setItem('LastCreatedTab',actionId)
+
+        jsonrpc('/add/mutli/tab', {
+                'name':tab_name,
+                'url':url,
+                'actionId':actionId,
+                'menuId':menuId,
+                'menu_xmlid':menu_xmlid,
+            }).then((rec) => {
+                self.addmultitabtags(ev)
+            });
+     },
+
+    addmultitabtags: async function (ev) {
+        var self = this
+        var rec = await jsonrpc('/get/mutli/tab', {});
+        if (rec){
+                $('.multi_tab_section').empty()
+                $.each(rec, function( key, value ) {
+                    var tab_tag = '<div class="d-flex justify-content-between multi_tab_div align-items-center"><a href="'+ value.url +'"'+' class="flex-fill" data-xml-id="'+ value.menu_xmlid +'" data-menu="'+ value.menuId +'" data-action-id="'+ value.actionId +'" multi_tab_id="'+value.id+'" multi_tab_name="'+value.name+'"><span>'+value.name+'</span></a><span class="remove_tab ml-4">X</span></div>'
+                    $('.multi_tab_section').append(tab_tag)
+                })
+                var ShstoredActionId = sessionStorage.getItem("sh_current_action_id");
+                var ShstoredAction = sessionStorage.getItem("sh_current_action");
+                if (ShstoredActionId){
+                    var TabDiv = $('.multi_tab_section .multi_tab_div');
+                    var ActiveMenu = TabDiv.find('a[data-action-id="'+ ShstoredActionId +'"]');
+                    ActiveMenu.parent().addClass('tab_active')
+                }
+
+                if (ev) {
+                    var actionId = ev.actionID
+                    var menu_xmlid = ev.xmlid
+                    if(localStorage.getItem('LastCreatedTab')){
+                        var target = '.multi_tab_section .multi_tab_div a[data-action-id="'+ localStorage.getItem('LastCreatedTab') +'"]'
+                        $(target).parent().addClass('tab_active')
+                        localStorage.removeItem('LastCreatedTab')
+                    } else {
+                        var target = '.multi_tab_section .multi_tab_div a[data-xml-id="'+ menu_xmlid +'"]'
+                        $(target).parent().addClass('tab_active')
+                    }
+                }
+                $('body').addClass("multi_tab_enabled");
+            } else {
+                $('body').removeClass("multi_tab_enabled");
+            }
+        $('.multi_tab_section .remove_tab').on('click', function (ev) {
+                    self._RemoveTab(ev)
+                });
+        $('.multi_tab_section .multi_tab_div a').on('click', function (ev) {
+                    self._TabClicked(ev)
+                });
+        },
+
+    _RemoveTab: function (ev) {
+        var self = this
+        var multi_tab_id = $(ev.target).parent().find('a').attr('multi_tab_id')
+        jsonrpc('/remove/multi/tab', {
+            'multi_tab_id':multi_tab_id,
+        }).then(function(rec) {
+            if (rec){
+                if(rec['removeTab']){
+                    $(ev.target).parent().remove()
+                    var FirstTab = $('.multi_tab_section').find('.multi_tab_div:first-child')
+                    if(FirstTab.length){
+                        $(FirstTab).find('a')[0].click()
+                        $(FirstTab).addClass('tab_active')
+                    }
+                }
+                if(rec['multi_tab_count'] == 0){
+                    $('body').removeClass("multi_tab_enabled");
+                }
+            }
+        });
+        },
+
+    _TabClicked: function (ev){
+    localStorage.setItem("TabClick", true);
+    localStorage.setItem("TabClickTilteUpdate", true);
+    if($(ev.target).data('action-id')){
+    $('.multi_tab_section').find('.tab_active').removeClass('tab_active');
+    $(ev.target).parent().addClass('tab_active')
+    console.log('$(ev.target).parent()',$(ev.target).parent())
+    }
+    else{
+    if($(ev.currentTarget).data('action-id')){
+        $('.multi_tab_section').find('.tab_active').removeClass('tab_active');
+        $(ev.currentTarget).parent().addClass('tab_active')
+        console.log('$(ev.target).parent()',$(ev.target).parent())
+    }
+    }
+    },
+    // NEW 28TH MARCH MULTITAB CODE 
+
     onNavBarDropdownItemClick(ev) {
         if(ev.shiftKey){
             localStorage.setItem("sh_add_tab",1)

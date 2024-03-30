@@ -7,7 +7,7 @@
     "support": "support@softhealer.com",
     "license": "OPL-1",
     "category": "Themes/Backend",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "summary": "Enterprise Backend Theme, Enterprise Theme, Backend Enterprise Theme, Flexible Enterprise Theme, Enter prise Theme Odoo",
     "description": """Do you want odoo enterpise look in your community version? Are You looking for modern, creative, clean, clear, materialise odoo enterpise look theme for your backend? So you are at the right place, We have made sure that this theme is highly clean, modern, fully customizable enterprise look theme. Cheers!""",
     "depends":
@@ -115,8 +115,8 @@
             'sh_entmate_theme/static/src/js/navbar.js',
 
             # # Odoo standard js
-            'sh_entmate_theme/static/src/js/route_service.js',
-            'sh_entmate_theme/static/src/js/action_service.js',
+            # 'sh_entmate_theme/static/src/js/route_service.js',
+            # 'sh_entmate_theme/static/src/js/action_service.js',
             'sh_entmate_theme/static/src/js/dropdown.js',
 
             # # On refresh custom js
@@ -194,7 +194,7 @@
             "sh_entmate_theme/static/src/xml/navbar.xml",
             'sh_entmate_theme/static/src/scss/multi_tab_at_control_panel/multi_tab.scss',
             'sh_entmate_theme/static/src/webclient/action_container.js',
-            'sh_entmate_theme/static/src/js/owl.carousel.js',
+            # 'sh_entmate_theme/static/src/js/owl.carousel.js',
 
             # kanban view style 
 

@@ -240,6 +240,7 @@ class res_users(models.Model):
     sh_enable_expand_collapse = fields.Boolean("Group by List View Expand/Collapse",default=False)
     show_attachment_in_list_view = fields.Boolean(string="Show Attachment In List View")
     sh_enable_open_record_in_new_tab = fields.Boolean("Open Record in New Tab",default=False)
+    multi_tab_ids = fields.One2many('biz.multi.tab', 'user_id', string="Multi Tabs")
 
     @property
     def SELF_READABLE_FIELDS(self):

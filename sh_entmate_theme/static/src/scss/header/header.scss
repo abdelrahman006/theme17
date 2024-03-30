@@ -1,6 +1,5 @@
 .o_web_client {
     .o_main_navbar {
-        background-color: #fff !important;
         border-bottom: 0 !important;
         align-items: center;
         padding: 10px;
@@ -198,7 +197,7 @@
 
 @if $header_bg_type =="bg_img" {
     .o_web_client {
-        .o_navbar {
+        .o_main_navbar {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/web/image?model=sh.ent.theme.config.settings&id=1&field=header_background_image');
             background-repeat: no-repeat;
             background-size: cover;
@@ -213,7 +212,7 @@
 
 @if $header_bg_type =="bg_color" {
     .o_web_client {
-        .o_navbar {
+        .o_main_navbar {
             background: $header_bg_color;
         }
     }

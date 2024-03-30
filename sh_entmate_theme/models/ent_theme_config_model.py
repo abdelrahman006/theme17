@@ -58,7 +58,7 @@ dict_theme_style = {
         'primary_color': '#ffc107',
         'extra_color': '#ffc107',
         'secondary_color': '#E7E9ED',
-        'header_background_color': '#ffc107',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
         'kanban_box_style': 'style_2',
         'body_background_color': '#FFFFFF',
@@ -105,7 +105,7 @@ dict_theme_style = {
         'primary_color': '#5c77ff',
         'extra_color': '#5c77ff',
         'secondary_color': '#E7E9ED',
-        'header_background_color': '#5c77ff',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
         'kanban_box_style': 'style_3',
         'body_background_color': '#FFFFFF',
@@ -152,7 +152,7 @@ dict_theme_style = {
         'primary_color': '#00bcd4',
         'extra_color': '#00bcd4',
         'secondary_color': '#E7E9ED',
-        'header_background_color': '#00bcd4',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
         'kanban_box_style': 'style_4',
         'body_background_color': '#FFFFFF',
@@ -198,7 +198,7 @@ dict_theme_style = {
         'primary_color': '#ff5722',
         'extra_color': '#ff5722',
         'secondary_color': '#E7E9ED',
-        'header_background_color': '#ff5722',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
         'kanban_box_style': 'style_1',
         'body_background_color': '#FFFFFF',
@@ -247,7 +247,7 @@ dict_theme_style = {
 
         'secondary_color': '#E7E9ED',
 
-        'header_background_color': '#673ab7',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
 
         'kanban_box_style': 'style_2',
@@ -296,7 +296,7 @@ dict_theme_style = {
 
         'secondary_color': '#E7E9ED',
 
-        'header_background_color': '#9e9e9e',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
 
         'kanban_box_style': 'style_3',
@@ -344,7 +344,7 @@ dict_theme_style = {
         'primary_color': '#4caf50',
         'extra_color': '#4caf50',
         'secondary_color': '#E7E9ED',
-        'header_background_color': '#4caf50',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
         'kanban_box_style': 'style_4',
         'body_background_color': '#FFFFFF',
@@ -391,7 +391,7 @@ dict_theme_style = {
         'primary_color': '#ff9800',
         'extra_color': '#ff9800',
         'secondary_color': '#E7E9ED',
-        'header_background_color': '#ff9800',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
         'kanban_box_style': 'style_1',
         'body_background_color': '#FFFFFF',
@@ -438,7 +438,7 @@ dict_theme_style = {
         'primary_color': '#e91e63',
         'extra_color': '#e91e63',
         'secondary_color': '#E7E9ED',
-        'header_background_color': '#e91e63',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
 
         'kanban_box_style': 'style_2',
@@ -488,7 +488,7 @@ dict_theme_style = {
 
         'secondary_color': '#E7E9ED',
 
-        'header_background_color': '#9c27b0',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
 
         'kanban_box_style': 'style_3',
@@ -536,7 +536,7 @@ dict_theme_style = {
         'extra_color': '#f44336',
         'secondary_color': '#E7E9ED',
 
-        'header_background_color': '#f44336',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
 
         'kanban_box_style': 'style_4',
@@ -586,7 +586,7 @@ dict_theme_style = {
         'primary_color': '#009688',
         'extra_color': '#009688',
         'secondary_color': '#E7E9ED',
-        'header_background_color': '#009688',
+        'header_background_color': '#FFFFFF',
         'header_font_color': '#1f2937',
         'kanban_box_style': 'style_1',
         'body_background_color': '#FFFFFF',
@@ -1088,5 +1088,6 @@ $progress_color:%s;
 
                 # clear the catch to applied our new theme effects.
                 self.env.registry.clear_cache()
+                IrAttachment.regenerate_assets_bundles()
 
         return res

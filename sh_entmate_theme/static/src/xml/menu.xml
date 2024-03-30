@@ -51,6 +51,12 @@
 
     </t>
     <t t-name="web.NavBar" t-inherit="web.NavBar" t-inherit-mode="extension" owl="1">
+        <xpath expr="//nav[hasclass('o_main_navbar')]" position="after">
+            <!-- MULTI TAB START -->
+          <div class="multi_tab_section"/>
+            <!-- MULTI TAB END -->
+      </xpath>
+      
         <xpath expr="//nav[hasclass('o_main_navbar')]" position="replace">
             <nav class="o_main_navbar" t-on-click="onNavBarDropdownItemClick" data-command-category="navbar">
                 <t t-call="sh.NavBar.AppsMenu">

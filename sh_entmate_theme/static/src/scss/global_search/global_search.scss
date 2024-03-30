@@ -5,7 +5,7 @@
             .dropdown-item{
                 color: $sidebar_font_color;
                 &:hover, &:active{
-                    color: $primaryColor;background: transparent;
+                    color: darken($primaryColor, 10%);background: transparent;
                 }
                 @include media-breakpoint-down(md){
                     display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;

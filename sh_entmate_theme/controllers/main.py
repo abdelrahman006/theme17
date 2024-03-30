@@ -230,3 +230,66 @@ class Main(http.Controller):
             }
             json_vals = json.dumps(vals)
             return json_vals
+    
+    # MULTI TAB START
+    @http.route(['/add/mutli/tab'], type='json', auth='public')
+    def add_multi_tab(self, **kw):
+        user = request.env.user
+
+        multi_tab_ids = user.multi_tab_ids.filtered(
+            lambda mt: mt.name == kw.get('name'))
+        if not multi_tab_ids:
+            user.sudo().write({
+                'multi_tab_ids': [(0, 0,  {
+                    'name': kw.get('name'),
+                    'url': kw.get('url'),
+                    'actionId': kw.get('actionId'),
+                    'menuId': kw.get('menuId'),
+                    'menu_xmlid': kw.get('menu_xmlid'),
+                })]
+            })
+
+        return True
+
+    @http.route(['/get/mutli/tab'], type='json', auth='public')
+    def get_multi_tab(self, **kw):
+        obj = request.env['biz.multi.tab']
+        user = request.env.user
+        if user.multi_tab_ids:
+            record_dict = user.multi_tab_ids.sudo().read(set(obj._fields))
+            return record_dict
+        else:
+            return False
+
+    @http.route(['/remove/multi/tab'], type='json', auth='public')
+    def remove_multi_tab(self, **kw):
+        multi_tab = request.env['biz.multi.tab'].sudo().search(
+            [('id', '=', kw.get('multi_tab_id'))])
+        multi_tab.unlink()
+        user = request.env.user
+        multi_tab_count = len(user.multi_tab_ids)
+        values = {
+            'removeTab': True,
+            'multi_tab_count': multi_tab_count,
+        }
+        return values
+
+    @http.route(['/update/tab/details'], type='json', auth='public')
+    def update_tabaction(self, **kw):
+        tabId = kw.get('tabId')
+        TabTitle = kw.get('TabTitle')
+        url = kw.get('url')
+        ActionId = kw.get('ActionId')
+        menu_xmlid = kw.get('menu_xmlid')
+
+        multi_tab = request.env['biz.multi.tab'].sudo().search(
+            [('id', '=', tabId)])
+        if multi_tab:
+            multi_tab.sudo().write({
+                'name': TabTitle or multi_tab.name,
+                'url': url or multi_tab.url,
+                'actionId': ActionId or multi_tab.ActionId,
+                'menu_xmlid': menu_xmlid or multi_tab.menu_xmlid,
+            })
+        return True
+    # MULTI TAB END
